@@ -31,3 +31,5 @@ async function dbConnect():Promise<any>{
         throw new Error(String(err))
     }
 }
+
+export default dbConnect
