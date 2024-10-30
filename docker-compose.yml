@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+    # MongoDB
+    backend:
+        container_name: foodfinder-backend
+        # use the precompiled official mongo image from the docker registry
+        image: mongo:latest
+        restart: always
+        environment:
+            # configure database name
+            DB_NAME: foodfinder
+            # configure database name for the seed script
+            MONGO_INITDB_DATABASE: foodfinder
+        # configure ports, the mongoDB should be available at localhost:27017
+        ports:
+            - 27017:27017
+        # sync files between host and container
+        volumes:
+            # map seed script
+            - ./.docker/foodfinder-backend/seed-mongodb.js:/docker-entrypoint-initdb.d/seed-mongodb.js
+            # map mongoDB database to a shared volume to persist the data
+            - mongodb_data_container:/data/db
+
+volumes:
+    mongodb_data_container:
